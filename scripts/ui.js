@@ -10,6 +10,10 @@ function updateUI() {
 
   if (world.lost) {
     Stats.textContent = "GAME OVER";
+    Stats.classList.add("lost");
+  } else {
+    Stats.textContent = "RUNNING";
+    Stats.classList.remove("lost");
   }
 }
 

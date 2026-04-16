@@ -1,17 +1,61 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: #222;
+  background: linear-gradient(180deg, #1a1a1a, #000);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Canvas centralizado com destaque */
 canvas {
   display: block;
-  margin: 0 auto;
-  background: #87CEEB; /* céu */
+  margin: 40px auto;
+  background: linear-gradient(#87CEEB, #cfefff);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
 
-table, th, td {
-  border: 2px solid white;
+/* Container HUD */
+.dados {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Tabela estilo HUD */
+table {
   border-collapse: collapse;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* Cabeçalho */
+th {
+  padding: 10px 20px;
+  color: #00ffff;
+  font-size: 14px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Dados */
+td {
+  padding: 10px 20px;
+  text-align: center;
   color: white;
+  font-size: 16px;
+}
+
+/* Destaque para status */
+#stats {
+  font-weight: bold;
+  color: #00ff88;
+}
+
+/* Quando perder (você pode trocar via JS depois) */
+.lost {
+  color: #ff4d4d !important;
 }
