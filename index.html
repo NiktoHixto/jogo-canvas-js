@@ -1,13 +1,35 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Plataforma Simples</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-  <canvas id="gameCanvas"></canvas>
 
-  <script src="script.js"></script>
+<canvas id="gameCanvas"></canvas>
+
+  <div class="dados" id="dados">
+    <table>
+      <thead>
+        <tr>
+          <th>Score</th>
+          <th>Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="score">0</td>
+          <td id="time">0</td>
+          <td id="stats">RUNNING</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="module" src="./scripts/script.js"></script>
+
 </body>
 </html>
