@@ -1,8 +1,10 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-const img = new Image()
-img.src = './img/rato.gif';
+const imgPlayer = new Image()
+const imgObstaculo = new Image()
+imgPlayer.src = './img/rato.gif';
+imgObstaculo.src = './img/Espinho.png';
 
 canvas.width = 800;
 canvas.height = 400;
@@ -35,7 +37,9 @@ const ground = {
 //Obstaculo
 const obstaculo = {
   x: canvas.width + 50,
+  // x: 250,
   y: canvas.height - ground.height*2,
+  // y: 250,
   height: 50,
   width: 35,
   velx: 0,
@@ -102,9 +106,12 @@ function update() {
 
   if (
     player.x + player.raio >= obstaculo.x &&
-    player.x + player.raio <= obstaculo.x + obstaculo.width
-  )
-  alert("Pão");
+    player.x - player.raio <= obstaculo.x + obstaculo.width &&
+    player.y + player.raio >= obstaculo.y &&
+    player.y - player.raio <= obstaculo.y + obstaculo.height
+  ) {
+    alert("Pão");
+  }
 
   // Limite lateral
   if (player.x - player.raio < 0) player.x = player.raio;
@@ -130,10 +137,12 @@ function draw() {
   // ctx.arc(player.x, player.y, player.raio, 0, 2 * Math.PI);
   // ctx.fill();
   //rato
-  ctx.drawImage(img, player.x - player.raio * 3, player.y - player.raio * 3);
+  ctx.drawImage(imgPlayer, player.x - player.raio * 3, player.y - player.raio * 3);
 
-  ctx.fillStyle = "black";
-  ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
+  // Obstaculo
+  // ctx.fillStyle = "black";
+  // ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
+  ctx.drawImage(imgObstaculo, obstaculo.x-obstaculo.width*0.4, obstaculo.y-obstaculo.height*0.4, obstaculo.width*1.8, obstaculo.height*1.5);
 }
 
 // Loop principal
