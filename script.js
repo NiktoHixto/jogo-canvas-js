@@ -1,6 +1,9 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+const img = new Image()
+img.src = './img/rato.gif';
+
 canvas.width = 800;
 canvas.height = 400;
 
@@ -10,10 +13,11 @@ const player = {
   y: 0,
   width: 40,
   height: 40,
+  raio: 30,
   velX: 0,
   velY: 0,
   speed: 4,
-  jumpForce: -10,
+  jumpForce: 10.5,
   grounded: false
 };
 
@@ -28,6 +32,16 @@ const ground = {
   height: 50
 };
 
+//Obstaculo
+const obstaculo = {
+  x: canvas.width + 50,
+  y: canvas.height - ground.height*2,
+  height: 50,
+  width: 35,
+  velx: 0,
+  speed: 2
+};
+
 // Controles
 const keys = {};
 
@@ -39,6 +53,7 @@ document.addEventListener("keyup", (e) => {
   keys[e.key.toLowerCase()] = false;
 });
 
+let i = 0;
 // Loop do jogo
 function update() {
   // Movimento horizontal
@@ -52,7 +67,7 @@ function update() {
 
   // Pulo
   if ((keys["w"] || keys["arrowup"] || keys[" "]) && player.grounded) {
-    player.velY = player.jumpForce;
+    player.velY = -player.jumpForce;
     player.grounded = false;
   }
 
@@ -63,21 +78,40 @@ function update() {
   player.x += player.velX;
   player.y += player.velY;
 
+  if(i % 10 == 0)
+    obstaculo.velx += obstaculo.speed;
+  obstaculo.x -= obstaculo.velx;
+  
+  if(obstaculo.x + obstaculo.width + 10 < 0){
+    obstaculo.x = canvas.width + 50;
+    obstaculo.velx = 0;
+  }
+
   // Colisão com chão
   if (
-    player.y + player.height >= ground.y &&
-    player.x + player.width > ground.x &&
+    player.y + player.raio >= ground.y &&
+    player.x + player.raio > ground.x &&
     player.x < ground.x + ground.width
   ) {
-    player.y = ground.y - player.height;
+    player.y = ground.y - player.raio;
     player.velY = 0;
     player.grounded = true;
   }
 
+  // Colisão com Obstaculo
+
+  if (
+    player.x + player.raio >= obstaculo.x &&
+    player.x + player.raio <= obstaculo.x + obstaculo.width
+  )
+  alert("Pão");
+
   // Limite lateral
-  if (player.x < 0) player.x = 0;
-  if (player.x + player.width > canvas.width)
-    player.x = canvas.width - player.width;
+  if (player.x - player.raio < 0) player.x = player.raio;
+  if (player.x + player.raio > canvas.width)
+    player.x = canvas.width - player.raio;
+
+  i++;
 }
 
 // Renderização
@@ -90,7 +124,16 @@ function draw() {
 
   // Player
   ctx.fillStyle = "red";
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+  // ctx.fillRect(player.x, player.y, player.width, player.height); Quadrado
+  //Bola
+  // ctx.beginPath();
+  // ctx.arc(player.x, player.y, player.raio, 0, 2 * Math.PI);
+  // ctx.fill();
+  //rato
+  ctx.drawImage(img, player.x - player.raio * 3, player.y - player.raio * 3);
+
+  ctx.fillStyle = "black";
+  ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
 }
 
 // Loop principal
